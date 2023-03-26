@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean class="exam.chan.dao.ExamDao" id="ExamDao">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<bean class="com.zaxxer.hikari.HikariConfig" id="hikariConfig">
+		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
+		<property name="jdbcUrl" value="jdbc:oracle:thin:@127.0.0.1:1521:xe" />
+		<property name="password" value="chan" />
+		<property name="username" value="chan" />
+	</bean>
+	<bean class="com.zaxxer.hikari.HikariDataSource" id="dataSource" destroy-method="close">
+		<constructor-arg ref="hikariConfig"></constructor-arg>
+	</bean>
+
+</beans>
