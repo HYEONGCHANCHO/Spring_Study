@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="memberNs">
+  <select id="getMember" resultType="Member" parameterType="String">
+    select * from members where memId = #{id}
+  </select>
+
+	<insert id="addMember" parameterType="Member">
+ 		insert into members values( #{memId}, #{memName}, #{memPwd}, #{email}, #{phone}, #{address},#{gender}, 1, sysdate)
+<!-- 	insert into members values ( 'aaaa','aaaa','aaaa','aaaa','01012341234','suwon','m',1,sysdate) -->
+	</insert>
+	
+	<update id="delMember" parameterType="String">
+		delete from members where memId= #{memId}
+	</update>
+	
+	<update id="updateMember" parameterType="Member" >
+		update members set memPwd=#{memPwd} ,email=#{email},phone=#{phone},
+		address=#{address},gender=#{gender},stateCode=#{stateCode} where memId= #{memId}
+	</update>
+
+  </mapper>
