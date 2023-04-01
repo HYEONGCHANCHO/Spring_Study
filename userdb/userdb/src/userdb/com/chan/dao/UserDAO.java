@@ -9,8 +9,9 @@ public interface UserDAO {
 	public UserVO getUser(String id);
 	public List<UserVO> getAllUser();
 	public Integer getCount();
-	public void addUser(UserVO vo);
-	public void delUser(String id);
+	public int addUser(UserVO vo);
+	public int delUser(String id);
 	public void delAll();
 	public void updateUser(UserVO vo);
+	
 }

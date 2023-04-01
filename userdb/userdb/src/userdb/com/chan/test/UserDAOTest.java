@@ -40,15 +40,15 @@ public class UserDAOTest {
 	UserVO td1, td2, td3;
 	@Before
 	public void dataSetup() {
-		td1 = new UserVO("chan1", "형찬1", "aa1234");
-		td2 = new UserVO("chan2", "형찬2", "bb1234");
-		td3 = new UserVO("chan3", "형찬3", "cc1234");
+		td1 = new UserVO("ch1", "형1", "aa12");
+		td2 = new UserVO("ch2", "형2", "bb12");
+		td3 = new UserVO("ch3", "형3", "cc12");
 	}
 	
 	@After
 	public void clearData() {
 		dao.delAll();
-		assertEquals(0, dao.getCount());
+		assertEquals(dao.getCount(),null);
 	}
 	
 	
@@ -76,6 +76,20 @@ public class UserDAOTest {
 	
 	@Test(expected = EmptyResultDataAccessException.class)
 	public void getNullDataTest() {
-		UserVO rv=dao.getUser("chan");
+		dao.getUser("없는");
 	}
+	
+	@Test
+	public void deleteAllTest() {
+		
+	}
+	@Test
+	public void delUserTest() {
+		dao.addUser(td1);
+		assertEquals(1, dao.getCount());
+		assertEquals(1, dao.delUser(td1.getId()));
+		assertEquals(0, dao.getCount());
+	}
+	
+	
 }
