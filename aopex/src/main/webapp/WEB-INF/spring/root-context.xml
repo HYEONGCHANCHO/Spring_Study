@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<context:component-scan base-package="com.chan.aopex"></context:component-scan>	
+
+	<bean class="org.springframework.jdbc.datasource.SimpleDriverDataSource" id="dataSource">
+		<property name="driverClass" value="oracle.jdbc.OracleDriver"></property>
+		<property name="url" value="jdbc:oracle:thin:@127.0.0.1:1521:xe"></property>
+		<property name="username" value="chan"></property>
+		<property name="password" value="chan"></property>
+	</bean>
+	
+	<bean class="org.springframework.jdbc.core.JdbcTemplate" id="jdbcTemplate">
+		<constructor-arg ref="dataSource"></constructor-arg>
+	</bean>
+
+	<bean class="com.chan.aopex.dao.UserDAO" id="userDAO">
+	</bean>
+	
+	<!-- 어드바이스 클래스를 빈으로 등록함 -->
+	<bean class="com.chan.aopex.advice.PerformanceTraceAdvice" id="performanceTraceAdvice"></bean>
+	
+	<!-- AOP적용을 위한 환경 설정 -->
+	<aop:config>
+		<aop:pointcut expression="execution(public * com.chan.aopex.dao..read*(..))" id="readBefore"/>
+		
+		<aop:aspect id="traceAspect" ref="performanceTraceAdvice" order="2">
+			<aop:around method="trace" pointcut="execution(public * com.chan.aopex.dao..*(..))"/>
+		</aop:aspect>
+		<aop:aspect ref="messageBeforeAdvice" order="1">
+			<aop:before method="beforeMessage" pointcut-ref="readBefore"/>
+			<aop:after method="afterMessage" pointcut-ref="readBefore"/>
+			<aop:after-returning method="afterRtnMessage" pointcut-ref="readBefore"/>
+			<aop:after-throwing method="afterThrowMessage" pointcut-ref="readBefore"/>
+		</aop:aspect>
+	</aop:config>
+	
+</beans>
+
+
