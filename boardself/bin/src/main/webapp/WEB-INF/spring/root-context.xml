@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+		
+	<!-- Hikaricp Connection pool을 활용한 dataSource 설정 -->
+	<bean class="com.zaxxer.hikari.HikariConfig" id="hikariConfig">
+		<property name="jdbcUrl"
+			value="jdbc:oracle:thin:@127.0.0.1:1521:xe"></property>
+		<property name="username" value="chan"></property>
+		<property name="password" value="chan"></property>
+		<property name="driverClassName"
+			value="oracle.jdbc.OracleDriver"></property>
+	</bean>
+
+	<bean class="com.zaxxer.hikari.HikariDataSource" id="dataSource"
+		destroy-method="close">
+		<constructor-arg ref="hikariConfig">
+		</constructor-arg>
+	</bean>
+
+	<bean class="org.mybatis.spring.SqlSessionFactoryBean"
+		id="sqlSessionFactory">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="configLocation" value="classpath:mybatis/mybatisConfig.xml"></property>
+		<property name="mapperLocations" >
+			<list>
+				<value>classpath:mybatis/mapper/board.xml</value>
+			</list>
+		</property>
+	</bean>
+	
+		<bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSession">
+		<constructor-arg ref="sqlSessionFactory"></constructor-arg>
+	</bean>
+	
+	
+	<context:component-scan
+		base-package="com.chan.boardself.controller" />
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+</beans>

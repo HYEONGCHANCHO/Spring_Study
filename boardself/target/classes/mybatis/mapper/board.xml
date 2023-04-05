@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="boardNs">
+  <select id="getboard" resultType="Board" parameterType="String">
+    select * from members where memId = #{id}
+  </select>
+
+	<insert id="addBoard" parameterType="Board">
+ 		insert into members values( #{memId}, #{memName}, #{memPwd}, #{email}, #{phone}, #{address},#{gender}, 1, sysdate)
+	</insert>
+	
+	<update id="delBoard" parameterType="String">
+		delete from members where memId= #{memId}
+	</update>
+	
+	<update id="updateBoard" parameterType="Board" >
+		update members set memPwd=#{memPwd} ,email=#{email},phone=#{phone},
+		address=#{address},gender=#{gender},stateCode=#{stateCode} where memId= #{memId}
+	</update>
+
+  </mapper>
