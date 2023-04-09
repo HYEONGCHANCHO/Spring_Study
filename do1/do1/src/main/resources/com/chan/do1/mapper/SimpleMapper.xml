@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.chan.do1.mapper.SimpleMapper">
+
+<!--   <insert id="insert" parameterType="com.chan.do1.vo.SimplebdVO"  >
+  insert into simplebd values( #{boardNum}, #{boardName}, #{boardPass}, #{boardSubject}, #{boardContent}, #{Date})
+  </insert> -->
+  
+  <select id="gettime2" resultType="string">
+  	SELECT * FROM dual
+  </select>
+  
+  </mapper>
